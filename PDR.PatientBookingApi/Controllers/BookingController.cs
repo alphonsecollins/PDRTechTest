@@ -111,6 +111,30 @@ namespace PDR.PatientBookingApi.Controllers
 
         }
 
+        [HttpPost("cancelappointment")]
+        public IActionResult CancelPatientAppointment(CancelBooking booking)
+        {
+
+            var order = _context.Doctor.FirstOrDefault(x => x.Id == booking.DoctorId).Orders.Where(x => x.Id == booking.Id).FirstOrDefault();
+
+            if(order!=null)
+            {
+                order.Cancelled = true;
+                _context.SaveChanges();
+            }
+
+            return StatusCode(200);
+        }
+
+        public class CancelBooking
+        {
+            public Guid Id { get; set; }
+
+            public long PatientId { get; set; }
+            public long DoctorId { get; set; }
+
+        }
+
         public class NewBooking
         {
             public Guid Id { get; set; }
