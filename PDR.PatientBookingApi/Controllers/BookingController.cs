@@ -68,7 +68,8 @@ namespace PDR.PatientBookingApi.Controllers
                     //find any appointments that clash with the requested booking
                     var orders= doctor.Orders
                                        .Where(x=>  (x.StartTime >= newBooking.StartTime && x.StartTime <= newBooking.EndTime)
-                                       || (x.EndTime <= newBooking.EndTime && x.EndTime >= newBooking.StartTime));
+                                       || (x.EndTime <= newBooking.EndTime && x.EndTime >= newBooking.StartTime)
+                                       && !x.Cancelled);
 
                     if(orders.Count()==0)
                     {
