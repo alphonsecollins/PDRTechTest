@@ -3,6 +3,7 @@ using PDR.PatientBooking.Service.PatientServices.Requests;
 using PDR.PatientBooking.Service.Validation;
 using System.Collections.Generic;
 using System.Linq;
+using System.ComponentModel.DataAnnotations;
 
 namespace PDR.PatientBooking.Service.PatientServices.Validation
 {
@@ -43,6 +44,9 @@ namespace PDR.PatientBooking.Service.PatientServices.Validation
 
             if (string.IsNullOrEmpty(request.Email))
                 errors.Add("Email must be populated");
+
+            if(!new EmailAddressAttribute().IsValid(request.Email))
+                errors.Add("Email must be a valid email address");
 
             if (errors.Any())
             {

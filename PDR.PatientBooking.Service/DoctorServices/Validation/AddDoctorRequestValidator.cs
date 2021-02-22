@@ -42,7 +42,7 @@ namespace PDR.PatientBooking.Service.DoctorServices.Validation
             if (string.IsNullOrEmpty(request.Email))
                 errors.Add("Email must be populated");
 
-            if (!IsValidEmailFormat(request.Email))
+            if (!new EmailAddressAttribute().IsValid(request.Email))
                 errors.Add("Email must be a valid email address");
 
             if (errors.Any())
@@ -67,9 +67,5 @@ namespace PDR.PatientBooking.Service.DoctorServices.Validation
             return false;
         }
 
-        private bool IsValidEmailFormat(string source)
-        {
-            return new EmailAddressAttribute().IsValid(source);
-        }
     }
 }
