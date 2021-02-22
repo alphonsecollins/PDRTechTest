@@ -20,24 +20,24 @@ namespace PDR.PatientBookingApi.Controllers
         }
 
         [HttpGet("patient/{identificationNumber}/next")]
-        public IActionResult GetPatientNextAppointnemtn(long identificationNumber)
+        public IActionResult GetPatientNextAppointment(long identificationNumber)
         {
-            var bockings = _context.Order.OrderBy(x => x.StartTime).ToList();
+            var bookings = _context.Order.OrderBy(x => x.StartTime).ToList();
 
-            if (bockings.Where(x => x.Patient.Id == identificationNumber).Count() == 0)
+            if (bookings.Where(x => x.Patient.Id == identificationNumber).Count() == 0)
             {
                 return StatusCode(502);
             }
             else
             {
-                var bookings2 = bockings.Where(x => x.PatientId == identificationNumber);
+                var bookings2 = bookings.Where(x => x.PatientId == identificationNumber);
                 if (bookings2.Where(x => x.StartTime > DateTime.Now).Count() == 0)
                 {
                     return StatusCode(502);
                 }
                 else
                 {
-                    var bookings3 = bookings2.Where(x => x.StartTime > DateTime.Now);
+                    var bookings3 = bookings2.Where(x => x.StartTime > DateTime.Now && x.Cancelled==false);
                     return Ok(new
                     {
                         bookings3.First().Id,
